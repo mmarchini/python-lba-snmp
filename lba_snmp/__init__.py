@@ -220,8 +220,8 @@ class LBAAgent(object):
 
 
     def _create_agent(self, mastersocket, persistencedir):
-        current_path = os.path.abspath(os.path.dirname(sys.argv[0]))
-        mib_file = os.path.join(current_path, "LBA-MIB.mib")
+        mibs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "mibs")
+        mib_file = os.path.join(mibs_path, "LBA-MIB.mib")
 
         agent = netsnmpagent.netsnmpAgent(
             AgentName      = "LBA_Agent",

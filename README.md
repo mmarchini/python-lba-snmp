@@ -13,4 +13,32 @@ que também exerce o papel de Gerente SNMP, se comunicando com o Agente respons�
 O código presente nesse repositório é a implementação em Python de uma extensão do Net-SNMP, utilizando a
 biblioteca python-netsnmpagent. O programa se comunica com o TwinEngine através de UNIX Sockets.
 
+## Dependências
+
+Para rodar essa aplicação, você vai precisar instalar os seguintes programas:
+
+* Python
+* Virtualenv 
+* Net-SNMP 
+
+Caso ainda não tenha eles instalados, siga os passos abaixo para
+instalá-los:
+
+### Ubuntu
+
+```bash
+sudo apt-get install python python-virtualenv snmpd snmp
+```
+
+## Instalação
+
+Para instalar a aplicação, entre na pasta do projeto e siga os passos abaixo:
+
+```bash
+virtualenv .env
+. .env/bin/activate
+python setup.py installl
+
+```
+
 
