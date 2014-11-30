@@ -38,7 +38,14 @@ Para instalar a aplicação, entre na pasta do projeto e siga os passos abaixo:
 virtualenv .env
 . .env/bin/activate
 python setup.py installl
+```
 
+## Rodando
+
+Para rodar o agente, basta executar o comando:
+
+```bash
+./run_lba_agent.sh
 ```
 
 
