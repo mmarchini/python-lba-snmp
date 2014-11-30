@@ -60,7 +60,7 @@ cleanup() {
 	# Make sure echo is back on
 	stty echo
 }
-trap cleanup EXIT INT
+trap cleanup EXIT INT TERM
 
 echo -e "* Preparando o agente ${RED}snmpd${NO_COLOR} ..."
 
@@ -69,11 +69,14 @@ TMPDIR="$(mktemp --directory --tmpdir lba_agent.XXXXXXXXXX)"
 SNMPD_CONFFILE=$TMPDIR/snmpd.conf
 SNMPD_PIDFILE=$TMPDIR/snmpd.pid
 
+READ_COMMUNITY="public"
+RW_COMMUNITY="simple"
+
 # Create a minimal snmpd configuration for our purposes
 cat <<EOF >>$SNMPD_CONFFILE
 [snmpd]
-rocommunity public 127.0.0.1
-rwcommunity simple 127.0.0.1
+rocommunity $READ_COMMUNITY 127.0.0.1
+rwcommunity $RW_COMMUNITY 127.0.0.1
 agentaddress localhost:5555
 informsink localhost:5556
 smuxsocket localhost:5557
@@ -94,10 +97,10 @@ echo ""
 echo "* O agente SNMP está rodando no endereço localhost, na porta 5555."
 echo "  É possível testar o agente usando os seguintes comandos:"
 echo -e "${CYAN}"
-echo "    cd `pwd`"
-echo "    snmpwalk -v 2c -c public -M+. localhost:5555 LBA-MIB::lbaHeroStats"
-echo "    snmpget -v 2c -c public -M+. localhost:5555 LBA-MIB::lbaGameRunning.0"
-echo "    snmpset -v 2c -c public -M+. localhost:5555 LBA-MIB::lbaBehaviourCurrent.0 i 1"
+echo "    cd `python -c \"import os; import lba_snmp; print os.path.join(os.path.dirname(os.path.abspath(lba_snmp.__file__)), 'mibs');\"`"
+echo "    snmpwalk -v 2c -c $RW_COMMUNITY -M+. localhost:5555 LBA-MIB::lbaHeroStats"
+echo "    snmpget -v 2c -c $RW_COMMUNITY -M+. localhost:5555 LBA-MIB::lbaGameRunning.0"
+echo "    snmpset -v 2c -c $RW_COMMUNITY -M+. localhost:5555 LBA-MIB::lbaBehaviourCurrent.0 u 1"
 echo -e "${NO_COLOR}"
 echo -e "* Agora, rode o ${GREEN}TwinEngine${NO_COLOR} para que o agente possa obter e manipular os dados do jogo. "
 echo ""

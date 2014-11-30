@@ -188,7 +188,7 @@ class TwinSocket(object):
     def setCurBehaviour(self, value):
         returned_value = self._communicate(111, value)
         if returned_value == None:
-            return None
+            return 0
         return int(returned_value)
 
 class LBAAgent(object):
